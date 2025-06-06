@@ -66,8 +66,8 @@ export default function TodoFilter({
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="none">Všechny stavy</SelectItem>
-              <SelectItem value="0">Nehotové</SelectItem>
-              <SelectItem value="1">Hotové</SelectItem>
+              <SelectItem value="0">Dokončeno</SelectItem>
+              <SelectItem value="1">Nedokončeno</SelectItem>
             </SelectContent>
           </Select>
         </div>

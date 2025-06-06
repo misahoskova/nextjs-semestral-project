@@ -102,6 +102,8 @@ export default function TodoApp() {
       body: JSON.stringify({ name, description, priority }),
     });
 
+    await loadTodos();
+
     if (response.ok) {
       console.log('Todo created');
       return true;
