@@ -6,13 +6,24 @@ import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../ui/select';
 
 interface TodoFormProps {
   id?: number;
   initialName?: string;
   initialDescription?: string;
   initialPriority?: number;
-  onSubmit: (name: string, description: string, priority: number) => void;
+  onSubmit: (
+    name: string,
+    description: string,
+    priority: number
+  ) => Promise<boolean>;
   onCreate?: () => Promise<void>;
 }
 
@@ -33,14 +44,19 @@ export default function TodoForm({
     setPriority(initialPriority);
   }, [initialName, initialDescription, initialPriority]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(name, description, priority);
+    const success = await onSubmit(name, description, priority);
+    if (success) {
+      setName('');
+      setDescription('');
+      setPriority(1);
+    }
   };
 
   return (
     <div className="grid grid-col-3 gap-8">
-      <Card className="w-full max-w-xl p-6">
+      <Card className="w-full max-w-6xl p-6">
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
             {id !== undefined && (
@@ -73,18 +89,23 @@ export default function TodoForm({
 
             <div>
               <Label htmlFor="priority">Priorita</Label>
-              <Input
-                id="priority"
-                type="number"
-                min={1}
-                max={5}
-                value={priority}
-                onChange={(e) => setPriority(parseInt(e.target.value))}
-              />
+              <Select
+                value={priority.toString()}
+                onValueChange={(val) => setPriority(Number(val))}
+              >
+                <SelectTrigger id="priority">
+                  <SelectValue placeholder="Zvolte prioritu" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="1">Nízká</SelectItem>
+                  <SelectItem value="2">Střední</SelectItem>
+                  <SelectItem value="3">Vysoká</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
 
             <div className="flex justify-end">
-              <Button type="submit">Uložit</Button>
+              <Button type="submit">Přidat úkol</Button>
             </div>
           </form>
         </CardContent>

@@ -89,13 +89,28 @@ export default function TodoApp() {
     highlight(id);
   };
 
-  const handleCreate = async () => {
-    await loadTodos();
-    if (todos.length > 0) {
-      const maxId = Math.max(...todos.map((t) => t.id));
-      highlight(maxId + 1);
+  async function handleCreate(
+    name: string,
+    description: string,
+    priority: number
+  ): Promise<boolean> {
+    const response = await fetch('/api/add_todo', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name, description, priority }),
+    });
+
+    if (response.ok) {
+      console.log('Todo created');
+      return true;
+    } else {
+      const err = await response.json();
+      console.error('Error:', err.error);
+      return false;
     }
-  };
+  }
 
   useEffect(() => {
     loadTodos();
