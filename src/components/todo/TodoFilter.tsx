@@ -39,16 +39,16 @@ export default function TodoFilter({
           />
 
           <Select
-            value={filterPriority?.toString() ?? ''}
+            value={filterPriority !== null ? filterPriority.toString() : 'all'}
             onValueChange={(value) =>
-              onPriorityChange(value ? parseInt(value) : null)
+              onPriorityChange(value !== 'all' ? parseInt(value) : null)
             }
           >
             <SelectTrigger className="md:max-w-xs">
               <SelectValue placeholder="Všechny priority" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="none">Všechny priority</SelectItem>
+              <SelectItem value="all">Všechny priority</SelectItem>
               <SelectItem value="1">Nízká</SelectItem>
               <SelectItem value="2">Střední</SelectItem>
               <SelectItem value="3">Vysoká</SelectItem>
@@ -56,18 +56,22 @@ export default function TodoFilter({
           </Select>
 
           <Select
-            value={filterCompleted === null ? '' : filterCompleted ? '1' : '0'}
+            value={
+              filterCompleted === null ? 'all' : filterCompleted ? '1' : '0'
+            }
             onValueChange={(value) =>
-              onCompletedChange(value === '' ? null : value === '1')
+              onCompletedChange(
+                value === 'all' ? null : value === '1' ? true : false
+              )
             }
           >
             <SelectTrigger className="md:max-w-xs">
               <SelectValue placeholder="Všechny stavy" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="none">Všechny stavy</SelectItem>
-              <SelectItem value="0">Dokončeno</SelectItem>
-              <SelectItem value="1">Nedokončeno</SelectItem>
+              <SelectItem value="all">Všechny stavy</SelectItem>
+              <SelectItem value="1">Dokončeno</SelectItem>
+              <SelectItem value="0">Nedokončeno</SelectItem>
             </SelectContent>
           </Select>
         </div>
