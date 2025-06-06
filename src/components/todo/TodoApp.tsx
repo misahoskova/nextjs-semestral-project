@@ -143,7 +143,13 @@ export default function TodoApp() {
 
         <Card>
           <CardContent className="p-6">
-            <TodoForm onSubmit={handleCreate} />
+            <TodoForm
+              onSubmit={handleCreate}
+              onFlash={(message, type) => {
+                setFlashMessage(message);
+                setFlashType(type);
+              }}
+            />
           </CardContent>
         </Card>
 

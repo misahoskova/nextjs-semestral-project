@@ -25,6 +25,7 @@ interface TodoFormProps {
     priority: number
   ) => Promise<boolean>;
   onCreate?: () => Promise<void>;
+  onFlash?: (message: string, type: 'success' | 'error') => void;
 }
 
 export default function TodoForm({
@@ -33,6 +34,7 @@ export default function TodoForm({
   initialDescription = '',
   initialPriority = 1,
   onSubmit,
+  onFlash,
 }: TodoFormProps) {
   const [name, setName] = useState(initialName);
   const [description, setDescription] = useState(initialDescription);
@@ -47,10 +49,14 @@ export default function TodoForm({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const success = await onSubmit(name, description, priority);
+
     if (success) {
+      onFlash?.('Úkol úspěšně přidán', 'success');
       setName('');
       setDescription('');
       setPriority(1);
+    } else {
+      onFlash?.('Chyba při přidávání úkolu', 'error');
     }
   };
 
