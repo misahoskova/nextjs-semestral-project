@@ -9,6 +9,7 @@ export async function POST(req: Request) {
   if (!name || typeof name !== 'string') {
     return NextResponse.json({ error: 'Invalid input' }, { status: 400 });
   }
+  await new Promise((resolve) => setTimeout(resolve, 5000));
 
   await db.insert(todosTable).values({
     name,
