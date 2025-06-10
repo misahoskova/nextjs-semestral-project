@@ -61,61 +61,64 @@ export default function TodoForm({
   };
 
   return (
-    <div className="grid grid-col-3 gap-8">
-      <Card className="w-full max-w-6xl p-6">
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {id !== undefined && (
+    <div>
+      <h1 className="text-center pb-5">Todo Aplikace</h1>
+      <div className="grid grid-col-3 gap-8">
+        <Card className="w-full max-w-6xl p-6">
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {id !== undefined && (
+                <div>
+                  <Label htmlFor="id">ID</Label>
+                  <Input id="id" value={id} readOnly disabled />
+                </div>
+              )}
+
               <div>
-                <Label htmlFor="id">ID</Label>
-                <Input id="id" value={id} readOnly disabled />
+                <Label htmlFor="name">Název úkolu</Label>
+                <Input
+                  id="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Zadejte název"
+                  required
+                />
               </div>
-            )}
 
-            <div>
-              <Label htmlFor="name">Název úkolu</Label>
-              <Input
-                id="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Zadejte název"
-                required
-              />
-            </div>
+              <div>
+                <Label htmlFor="description">Popis</Label>
+                <Textarea
+                  id="description"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  placeholder="Zadejte popis"
+                />
+              </div>
 
-            <div>
-              <Label htmlFor="description">Popis</Label>
-              <Textarea
-                id="description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="Zadejte popis"
-              />
-            </div>
+              <div>
+                <Label htmlFor="priority">Priorita</Label>
+                <Select
+                  value={priority.toString()}
+                  onValueChange={(val) => setPriority(Number(val))}
+                >
+                  <SelectTrigger id="priority">
+                    <SelectValue placeholder="Zvolte prioritu" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="1">Nízká</SelectItem>
+                    <SelectItem value="2">Střední</SelectItem>
+                    <SelectItem value="3">Vysoká</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
 
-            <div>
-              <Label htmlFor="priority">Priorita</Label>
-              <Select
-                value={priority.toString()}
-                onValueChange={(val) => setPriority(Number(val))}
-              >
-                <SelectTrigger id="priority">
-                  <SelectValue placeholder="Zvolte prioritu" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="1">Nízká</SelectItem>
-                  <SelectItem value="2">Střední</SelectItem>
-                  <SelectItem value="3">Vysoká</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="flex justify-end">
-              <Button type="submit">Přidat úkol</Button>
-            </div>
-          </form>
-        </CardContent>
-      </Card>
+              <div className="flex justify-end">
+                <Button type="submit">Přidat úkol</Button>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
